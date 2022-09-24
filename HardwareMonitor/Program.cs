@@ -58,7 +58,7 @@ namespace HardwareMonitor
             
             // print to console
             label += ": ";
-            Console.Write("\r\x1b[1m{0}° C  (Press 'Esc' to quit.)\x1b[0m", label + sensorVar);
+            Console.Write("\r{0}° C  (Press 'Esc' to quit.)", label + sensorVar);
         }
 
 
