@@ -12,7 +12,7 @@ namespace HardwareMonitor
         */
 
         // CPU Temp
-        static float cpuTemp;
+        static float cpuTemp = 0;
 
         /**
          * Init OpenHardwareMonitor.dll Computer Object
@@ -38,7 +38,7 @@ namespace HardwareMonitor
                     {
                         if (sensor.SensorType == SensorType.Temperature && sensor.Name.Contains("CPU Package"))
                         {
-                            printSensorData(sensor, ref cpuTemp, "cpuTemp (C°)");
+                            printSensorData(sensor, ref cpuTemp, "cpuTemp");
                         }
                     }
                 }
@@ -49,19 +49,31 @@ namespace HardwareMonitor
         private static void printSensorData(ISensor sensor, ref float sensorVar, string label)
         {
             sensorVar = sensor.Value.GetValueOrDefault();
+            
+            Console.ResetColor();
+
+            if(sensorVar <= 70 && sensorVar > 0) { Console.ForegroundColor = ConsoleColor.Green; }
+            else if (sensorVar > 70 && sensorVar > 0) { Console.ForegroundColor = ConsoleColor.Yellow; }
+            else if (sensorVar > 80 ) { Console.ForegroundColor = ConsoleColor.Red; }
+            
             // print to console
             label += ": ";
-            Console.WriteLine(label + sensorVar);
+            Console.Write("\r\x1b[1m{0}° C  (Press 'Esc' to quit.)\x1b[0m", label + sensorVar);
         }
+
 
         static void Main(string[] args)
         {
+
+            Console.Clear();
+
             c.Open();
-            while (true)
+            while (!(Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape))
             {
                 ReportSystemInfo();
             }
 
+            Environment.Exit(0);
         }
     }
 }
