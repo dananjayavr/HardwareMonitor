@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using OpenHardwareMonitor.Hardware;
 
 // Code adapted from: https://performancepsu.com/open-hardware-monitor-source-code-dll-with-c/
@@ -64,8 +65,9 @@ namespace HardwareMonitor
 
         static void Main(string[] args)
         {
-
             Console.Clear();
+            Console.SetWindowSize(40, 2);
+            Console.Title = "Current CPU Temp.";
 
             c.Open();
             while (!(Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape))
